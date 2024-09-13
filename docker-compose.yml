@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  manage-nginx:
+    build: manager/docker/development/nginx
+    volumes:
+      - ./manager:/app
+    depends_on:
+      - manager-php-fpm
+    ports:
+      - "8080:80"
+  manager-php-fpm:
+    build: manager/docker/development/php-fpm
+    volumes:
+      - ./manager:/app
+  manager-php-cli:
+    build: manager/docker/development/php-cli
+    volumes:
+      - ./manager:/app
