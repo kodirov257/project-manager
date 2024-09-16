@@ -11,9 +11,13 @@ services:
       - "8080:80"
   manager-php-fpm:
     build: manager/docker/development/php-fpm
+    environment:
+      APP_DEBUG: 1
     volumes:
       - ./manager:/app
   manager-php-cli:
     build: manager/docker/development/php-cli
+    environment:
+      APP_DEBUG: 1
     volumes:
       - ./manager:/app
