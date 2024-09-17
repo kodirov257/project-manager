@@ -11,10 +11,20 @@ services:
       - "8080:80"
   manager-php-fpm:
     build: manager/docker/development/php-fpm
+    environment:
+      APP_ENV: dev
+      APP_SECRET: secret
+      DATABASE_URL: pgsql://app:secret@manager-postgres:5432/app
+      MAILER_URL: null://localhost
     volumes:
       - ./manager:/app
   manager-php-cli:
     build: manager/docker/development/php-cli
+    environment:
+      APP_ENV: dev
+      APP_SECRET: secret
+      DATABASE_URL: pgsql://app:secret@manager-postgres:5432/app
+      MAILER_URL: null://localhost
     volumes:
       - ./manager:/app
       - composer:/root/.composer/cache
