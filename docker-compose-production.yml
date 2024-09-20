@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   manage-nginx:
     image: ${REGISTRY_ADDRESS}/manager-nginx:${IMAGE_TAG}
