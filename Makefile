@@ -26,10 +26,10 @@ manager-wait-db:
 	until docker-compose exec -T manager-postgres pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
 
 manager-migrations:
-	docker-compose run -rm manager-php-cli php bin/console doctrine:migrations:migrate --no-interaction
+	docker-compose run --rm manager-php-cli php bin/console doctrine:migrations:migrate --no-interaction
 
 manager-test:
-	docker-compose run -rm manager-php-cli php bin/phpunit
+	docker-compose run --rm manager-php-cli php bin/phpunit
 
 build-production:
 	docker build --pull --file=manager/docker/production/nginx/Dockerfile --tag ${REGISTRY_ADDRESS}/manager-nginx:${IMAGE_TAG} manager
