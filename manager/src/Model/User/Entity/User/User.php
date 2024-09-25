@@ -17,6 +17,7 @@ class User
     private ?Email $email;
     private ?string $passwordHash;
     private ?string $confirmToken;
+    private ?ResetToken $resetToken;
     private string $status;
     /**
      * @var Network[]|ArrayCollection
@@ -72,6 +73,22 @@ class User
         $this->networks->add(new Network($this, $network, $identity));
     }
 
+    public function requestPasswordReset(ResetToken $token, \DateTimeImmutable $expires): void
+    {
+        if (!$this->email) {
+            throw new \DomainException('Email is not specified.');
+        }
+        if ($this->resetToken && !$this->resetToken->isExpiredTo($expires)) {
+            throw new \DomainException('Resetting is already requested.');
+        }
+        $this->resetToken = $token;
+    }
+
+    public function isNew(): bool
+    {
+        return $this->status === self::STATUS_NEW;
+    }
+
     public function isWait(): bool
     {
         return $this->status === self::STATUS_WAIT;
@@ -105,5 +122,18 @@ class User
     public function getConfirmToken(): ?string
     {
         return $this->confirmToken;
+    }
+
+    public function getResetToken(): ?ResetToken
+    {
+        return $this->resetToken;
+    }
+
+    /**
+     * @return Network[]
+     */
+    public function getNetworks(): array
+    {
+        return $this->networks->toArray();
     }
 }
