@@ -26,6 +26,9 @@
             "migrations/.gitignore"
         ]
     },
+    "ramsey/uuid": {
+        "version": "4.7.6"
+    },
     "phpunit/phpunit": {
         "version": "9.6",
         "recipe": {
