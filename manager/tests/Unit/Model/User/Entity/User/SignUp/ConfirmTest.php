@@ -2,11 +2,10 @@
 
 namespace App\Tests\Unit\Model\User\Entity\User\SignUp;
 
-use App\Model\User\Entity\Email;
-use App\Model\User\Entity\Id;
-use App\Model\User\Entity\User;
+use App\Model\User\Entity\User\Email;
+use App\Model\User\Entity\User\Id;
+use App\Model\User\Entity\User\User;
 use PHPUnit\Framework\TestCase;
-use function PHPUnit\Framework\assertTrue;
 
 class ConfirmTest extends TestCase
 {
@@ -33,12 +32,19 @@ class ConfirmTest extends TestCase
 
     private function buildSignupUser(): User
     {
-        return new User(
+        $user = new User(
             Id::next(),
             new \DateTimeImmutable(),
-            new Email('test@app.test'),
+        );
+
+        $user->signUpByEmail(
+            new Email(
+                'test@app.local',
+            ),
             'hash',
             'token',
         );
+
+        return $user;
     }
 }

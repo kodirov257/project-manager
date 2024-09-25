@@ -2,13 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Unit\Model\User\Entity\User\SignUp;
+namespace App\Tests\Unit\Model\User\Entity\User\SignUp;
 
-use App\Model\User\Entity\Email;
-use App\Model\User\Entity\Id;
-use App\Model\User\Entity\User;
+use App\Model\User\Entity\User\Email;
+use App\Model\User\Entity\User\Id;
+use App\Model\User\Entity\User\User;
 use PHPUnit\Framework\TestCase;
-use Ramsey\Uuid\Uuid;
 
 class RequestTest extends TestCase
 {
@@ -17,6 +16,9 @@ class RequestTest extends TestCase
         $user = new User(
             $id = Id::next(),
             $date = new \DateTimeImmutable(),
+        );
+
+        $user->signUpByEmail(
             $email = new Email('test@app.test'),
             $hash = 'hash',
             $token = 'token',
@@ -30,5 +32,22 @@ class RequestTest extends TestCase
         self::assertEquals($email, $user->getEmail());
         self::assertEquals($hash, $user->getPasswordHash());
         self::assertEquals($token, $user->getConfirmToken());
+    }
+    public function testAlready(): void
+    {
+        $user = new User(
+            $id = Id::next(),
+            $date = new \DateTimeImmutable(),
+        );
+
+        $user->signUpByEmail(
+            $email = new Email('test@app.test'),
+            $hash = 'hash',
+            $token = 'token',
+        );
+
+        $this->expectExceptionMessage('User already signed up.');
+
+        $user->signUpByEmail($email, $hash, $token);
     }
 }

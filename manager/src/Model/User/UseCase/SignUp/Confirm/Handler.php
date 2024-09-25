@@ -5,15 +5,7 @@ declare(strict_types=1);
 namespace App\Model\User\UseCase\SignUp\Confirm;
 
 use App\Model\Flusher;
-use App\Model\User\Entity\Email;
-use App\Model\User\Entity\Id;
-use App\Model\User\Entity\User;
-use App\Model\User\Entity\UserRepository;
-use App\Model\User\Service\SignUpConfirmTokenizer;
-use App\Model\User\Service\ConfirmTokenSender;
-use App\Model\User\Service\PasswordHasher;
-use Doctrine\ORM\EntityManagerInterface;
-use Ramsey\Uuid\Uuid;
+use App\Model\User\Entity\User\UserRepository;
 
 class Handler
 {
