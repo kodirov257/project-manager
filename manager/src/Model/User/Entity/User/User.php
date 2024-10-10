@@ -19,6 +19,7 @@ class User
     private ?string $confirmToken;
     private ?ResetToken $resetToken;
     private string $status;
+    private Role $role;
     /**
      * @var Network[]|ArrayCollection
      */
@@ -28,6 +29,7 @@ class User
     {
         $this->id = $id;
         $this->date = $date;
+        $this->role = Role::user();
         $this->networks = new ArrayCollection();
     }
 
@@ -99,6 +101,14 @@ class User
         $this->resetToken = null;
     }
 
+    public function changeRole(Role $role): void
+    {
+        if ($this->role->isEqual($role)) {
+            throw new \DomainException('Role is already same.');
+        }
+        $this->role = $role;
+    }
+
     public function isNew(): bool
     {
         return $this->status === self::STATUS_NEW;
@@ -142,6 +152,11 @@ class User
     public function getResetToken(): ?ResetToken
     {
         return $this->resetToken;
+    }
+
+    public function getRole(): Role
+    {
+        return $this->role;
     }
 
     /**
