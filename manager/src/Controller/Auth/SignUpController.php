@@ -8,10 +8,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class SignUpController extends AbstractController
 {
-    public function __construct(private readonly LoggerInterface $logger)
+    public function __construct(
+        private readonly LoggerInterface $logger,
+        private readonly TranslatorInterface $translator,
+    )
     {
     }
 
@@ -30,7 +34,7 @@ class SignUpController extends AbstractController
                 return $this->redirectToRoute('home');
             } catch (\DomainException $e) {
                 $this->logger->error($e->getMessage(), ['exception' => $e]);
-                $this->addFlash('error', $e->getMessage());
+                $this->addFlash('error', $this->translator->trans($e->getMessage(), [], 'exceptions'));
             }
         }
 
@@ -50,7 +54,7 @@ class SignUpController extends AbstractController
             return $this->redirectToRoute('home');
         } catch (\DomainException $e) {
             $this->logger->error($e->getMessage(), ['exception' => $e]);
-            $this->addFlash('error', $e->getMessage());
+            $this->addFlash('error', $this->translator->trans($e->getMessage(), [], 'exceptions'));
             return $this->redirectToRoute('home');
         }
     }
