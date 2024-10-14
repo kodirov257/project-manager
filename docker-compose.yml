@@ -13,6 +13,7 @@ services:
       - ./manager:/app
     depends_on:
       - manager-postgres
+      - maildev
   manager-php-cli:
     build: manager/docker/development/php-cli
     volumes:
@@ -20,6 +21,7 @@ services:
       - composer:/root/.composer/cache
     depends_on:
       - manager-postgres
+      - maildev
   manager-postgres:
     image: postgres:16.4-alpine
     volumes:
@@ -30,6 +32,11 @@ services:
       POSTGRES_DB: app
     ports:
       - "54321:5432"
+
+  maildev:
+    image: maildev/maildev
+    ports:
+      - "1080:1080"
 
 volumes:
   manager-postgres:
