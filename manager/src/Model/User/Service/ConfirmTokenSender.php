@@ -26,6 +26,7 @@ class ConfirmTokenSender
             $message = (new SymfonyEmail())
                 ->from(new Address($this->from['mail'], $this->from['name']))
                 ->to($email->getValue())
+                ->subject('Sign Up Confirmation')
                 ->html($this->twig->render('mail/user/signup.html.twig', [
                     'token' => $token,
                 ]));
