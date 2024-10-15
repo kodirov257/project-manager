@@ -6,13 +6,14 @@ namespace App\Model\User\Service;
 
 use App\Model\User\Entity\User\Email;
 use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\Mime\Email as SymfonyEmail;
 use Twig\Environment;
 
 class ConfirmTokenSender
 {
     public function __construct(
-        private readonly MailerInterface $mailer,
+        private readonly TransportInterface $mailer,
         private readonly Environment     $twig,
     )
     {
