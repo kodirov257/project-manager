@@ -15,6 +15,7 @@ security:
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
+            custom_authenticator: App\Security\LoginFormAuthenticator
 
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
