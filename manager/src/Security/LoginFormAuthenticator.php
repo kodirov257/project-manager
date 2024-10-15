@@ -2,6 +2,7 @@
 
 namespace App\Security;
 
+use App\Model\User\Service\PasswordHasher;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -9,7 +10,6 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\BadCredentialsException;
-use Symfony\Component\Security\Core\User\InMemoryUserProvider;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
@@ -31,7 +31,8 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     public function __construct(
         private readonly UrlGeneratorInterface $urlGenerator,
         private readonly CsrfTokenManagerInterface $csrfTokenManager,
-        /* @var InMemoryUserProvider */ private readonly UserProviderInterface $userProvider,
+        /* @var UserProvider */ private readonly UserProviderInterface $userProvider,
+        private readonly PasswordHasher $hasher,
     )
     {
     }
@@ -64,7 +65,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
             throw new BadRequestHttpException(sprintf('The key "password" must be a string, "%s" given.', \gettype($credentials['password'])));
         }
 
-        if ('' === (string) $credentials['password']) {
+        if ('' === $credentials['password']) {
             throw new BadCredentialsException('The key "password" must be a non-empty string.');
         }
 
@@ -75,13 +76,6 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         return $credentials;
     }
 
-    public function checkCredentials($credentials, UserInterface $user): bool
-    {
-        // Check the user's password or other credentials and return true or false
-        // If there are no credentials to check, you can just return true
-        throw new \Exception('TODO: check the credentials inside' . __FILE__);
-    }
-
     /**
      * @throws \Exception
      */
@@ -89,10 +83,8 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
     {
         $credentials = $this->getCredentials($request);
 
-        $this->checkCredentials($credentials, $user = $this->userProvider->loadUserByIdentifier($credentials['email']));
-
         return new Passport(
-            new UserBadge($credentials['email'], $user),
+            new UserBadge($credentials['email'], $this->userProvider->loadUserByIdentifier(...)),
             new PasswordCredentials($request->getPayload()->getString('password')),
             [
                 new CsrfTokenBadge('authenticate', $request->getPayload()->getString('_csrf_token')),

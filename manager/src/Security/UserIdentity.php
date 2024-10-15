@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace App\Security;
 
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class UserIdentity implements UserInterface
+class UserIdentity implements UserInterface, PasswordAuthenticatedUserInterface
 {
     private string $id;
     private string $username;
@@ -39,11 +40,6 @@ class UserIdentity implements UserInterface
     public function getRoles(): array
     {
         return [$this->role];
-    }
-
-    public function getSalt(): ?string
-    {
-        return null;
     }
 
     public function eraseCredentials(): void
