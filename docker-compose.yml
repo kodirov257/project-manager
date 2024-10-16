@@ -7,21 +7,35 @@ services:
       - manager-php-fpm
     ports:
       - "8080:80"
+    networks:
+      - project_manager
   manager-php-fpm:
     build: manager/docker/development/php-fpm
+    extra_hosts:
+      - host.docker.internal:host-gateway
     volumes:
       - ./manager:/app
+    environment:
+      PHP_IDE_CONFIG: serverName=ProjectManager
     depends_on:
       - manager-postgres
       - maildev
+    networks:
+      - project_manager
   manager-php-cli:
     build: manager/docker/development/php-cli
+    extra_hosts:
+      - host.docker.internal:host-gateway
     volumes:
       - ./manager:/app
       - composer:/root/.composer/cache
+    environment:
+      PHP_IDE_CONFIG: serverName=ProjectManager
     depends_on:
       - manager-postgres
       - maildev
+    networks:
+      - project_manager
   manager-postgres:
     image: postgres:16.4-alpine
     volumes:
@@ -32,12 +46,24 @@ services:
       POSTGRES_DB: app
     ports:
       - "54321:5432"
+    networks:
+      - project_manager
 
   maildev:
     image: maildev/maildev
     ports:
       - "1080:1080"
+    networks:
+      - project_manager
 
 volumes:
   manager-postgres:
   composer:
+
+networks:
+  project_manager:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.210.0/28
