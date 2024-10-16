@@ -32,7 +32,7 @@ class UserFetcher
     public function findForAuth(string $email): ?AuthView
     {
         $stmt = $this->connection->createQueryBuilder()
-            ->select('id', 'email', 'password_hash', 'role')
+            ->select('id', 'email', 'password_hash', 'role', 'status')
             ->from('user_users')
             ->where('email = ?')
             ->setParameter(0, $email)
@@ -41,7 +41,7 @@ class UserFetcher
         $result = $stmt->fetchAssociative();
 
         return $result
-            ? new AuthView($result['id'], $result['email'], $result['password_hash'], $result['role'])
+            ? new AuthView($result['id'], $result['email'], $result['password_hash'], $result['role'], $result['status'])
             : null;
     }
 }
