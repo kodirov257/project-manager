@@ -19,6 +19,7 @@ services:
       PHP_IDE_CONFIG: serverName=ProjectManager
     depends_on:
       - manager-postgres
+      - manager-postgres-test
       - maildev
     networks:
       - project_manager
@@ -33,6 +34,7 @@ services:
       PHP_IDE_CONFIG: serverName=ProjectManager
     depends_on:
       - manager-postgres
+      - manager-postgres-test
       - maildev
     networks:
       - project_manager
@@ -46,6 +48,16 @@ services:
       POSTGRES_DB: app
     ports:
       - "54321:5432"
+    networks:
+      - project_manager
+  manager-postgres-test:
+    image: postgres:16.4-alpine
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: app_test
+    ports:
+      - "54322:5432"
     networks:
       - project_manager
 
