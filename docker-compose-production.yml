@@ -13,6 +13,7 @@ services:
       APP_SECRET: ${MANAGER_APP_SECRET}
       DATABASE_URL: pgsql://app:${MANAGER_DB_PASSWORD}@manager-postgres:5432/app
       MAILER_URL: null://localhost
+      OAUTH_GOOGLE_SECRET: ${MANAGER_OAUTH_GOOGLE_SECRET}
     depends_on:
       - manager-postgres
   manager-php-cli:
@@ -21,6 +22,7 @@ services:
       APP_SECRET: ${MANAGER_APP_SECRET}
       DATABASE_URL: pgsql://app:${MANAGER_DB_PASSWORD}@manager-postgres:5432/app
       MAILER_URL: null://localhost
+      OAUTH_GOOGLE_SECRET: ${MANAGER_OAUTH_GOOGLE_SECRET}
     depends_on:
       - manager-postgres
   manager-postgres:

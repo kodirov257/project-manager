@@ -24,7 +24,7 @@ class UserProvider implements UserProviderInterface
     public function loadUserByIdentifier(string $identifier): UserInterface
     {
         $user = $this->loadUser($identifier);
-        return self::identityByUser($user);
+        return self::identityByUser($user, $identifier);
     }
 
     /**
@@ -36,7 +36,7 @@ class UserProvider implements UserProviderInterface
             throw new UnsupportedUserException('Instances user class ' . \get_class($user));
         }
 
-        return self::identityByUser($this->loadUser($user->getUsername()));
+        return self::identityByUser($this->loadUser($user->getUsername()), $user->getUsername());
     }
 
     public function supportsClass(string $class): bool
@@ -49,14 +49,21 @@ class UserProvider implements UserProviderInterface
      */
     private function loadUser(string $username): AuthView
     {
-        if (!$user = $this->users->findForAuth($username)) {
-            throw new UserNotFoundException('');
+        $chunks = explode(':', $username);
+
+        if (\count($chunks) === 2 && $user = $this->users->findForAuthByNetwork($chunks[0], $chunks[1])) {
+            return $user;
         }
-        return $user;
+
+        if ($user = $this->users->findForAuthByEmail($username)) {
+            return $user;
+        }
+
+        throw new UserNotFoundException('');
     }
 
-    private static function identityByUser(AuthView $user): UserIdentity
+    private static function identityByUser(AuthView $user, string $username): UserIdentity
     {
-        return new UserIdentity($user->id, $user->email, $user->password_hash, $user->role, $user->status);
+        return new UserIdentity($user->id, $username, $user->password_hash, $user->role, $user->status);
     }
 }
