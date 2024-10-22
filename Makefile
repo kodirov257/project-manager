@@ -17,7 +17,7 @@ docker-pull:
 docker-build:
 	docker-compose build
 
-manager-init: manager-composer-install manager-wait-db manager-migrations manager-test-migrations manager-fixtures
+manager-init: manager-composer-install manager-wait-db manager-migrations manager-test-migrations manager-fixtures manager-test-fixtures
 
 manager-composer-install:
 	docker-compose run --rm manager-php-cli composer install
