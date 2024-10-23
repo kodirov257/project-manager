@@ -38,6 +38,15 @@ services:
       - maildev
     networks:
       - project_manager
+  manager-php-watch:
+    image: php:8.3-cli
+    restart: unless-stopped
+    volumes:
+      - ./manager:/app
+    working_dir: /app
+    command: php bin/console sass:build --watch
+    networks:
+      - project_manager
   manager-postgres:
     image: postgres:16.4-alpine
     volumes:
