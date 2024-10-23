@@ -38,7 +38,10 @@ manager-test-fixtures:
 	docker-compose run --rm manager-php-cli php bin/console doctrine:fixtures:load --env=test --no-interaction
 
 manager-test:
-	docker-compose run -rm manager-php-cli php bin/phpunit
+	docker-compose run --rm manager-php-cli php bin/phpunit
+
+manager-assets-dev:
+	docker-compose run --rm manager-php-cli php bin/console asset-map:compile
 
 build-production:
 	docker build --pull --file=manager/docker/production/nginx/Dockerfile --tag ${REGISTRY_ADDRESS}/manager-nginx:${IMAGE_TAG} manager
