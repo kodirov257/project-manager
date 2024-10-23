@@ -17,10 +17,14 @@ docker-pull:
 docker-build:
 	docker-compose build
 
-manager-init: manager-composer-install manager-wait-db manager-migrations manager-test-migrations manager-fixtures manager-test-fixtures
+manager-init: manager-composer-install manager-assets-install manager-wait-db manager-migrations manager-test-migrations manager-fixtures manager-test-fixtures
 
 manager-composer-install:
 	docker-compose run --rm manager-php-cli composer install
+
+manager-assets-install:
+	docker-compose run --rm manager-php-cli php bin/console importmap:install
+	docker-compose run --rm manager-php-cli php bin/console sass:build
 
 manager-wait-db:
 	until docker-compose exec -T manager-postgres pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
@@ -41,6 +45,7 @@ manager-test:
 	docker-compose run --rm manager-php-cli php bin/phpunit
 
 manager-assets-dev:
+	docker-compose run --rm manager-php-cli php bin/console sass:build
 	docker-compose run --rm manager-php-cli php bin/console asset-map:compile
 
 build-production:
