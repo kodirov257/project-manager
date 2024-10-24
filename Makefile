@@ -1,4 +1,6 @@
 up: docker-up
+down:docker-down
+restart:docker-down docker-up
 init: docker-down-clear docker-pull docker-build docker-up manager-init
 test: manager-test
 
@@ -17,10 +19,13 @@ docker-pull:
 docker-build:
 	docker-compose build
 
-manager-init: manager-composer-install manager-wait-db manager-migrations manager-test-migrations manager-fixtures manager-test-fixtures
+manager-init: manager-composer-install manager-assets-install manager-wait-db manager-migrations manager-test-migrations manager-fixtures manager-test-fixtures
 
 manager-composer-install:
 	docker-compose run --rm manager-php-cli composer install
+
+manager-assets-install:
+	docker-compose run --rm manager-php-cli php bin/console importmap:install
 
 manager-wait-db:
 	until docker-compose exec -T manager-postgres pg_isready --timeout=0 --dbname=app ; do sleep 1 ; done
