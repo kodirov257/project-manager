@@ -26,16 +26,37 @@ return [
         'version' => '7.3.0',
     ],
     'bootstrap' => [
-        'version' => '4.6.2',
-    ],
-    'popper.js' => [
-        'version' => '1.16.1',
+        'version' => '5.3.3',
     ],
     'bootstrap/dist/css/bootstrap.min.css' => [
-        'version' => '4.6.2',
+        'version' => '5.3.3',
         'type' => 'css',
+    ],
+    '@popperjs/core' => [
+        'version' => '2.11.8',
     ],
     'jquery' => [
         'version' => '3.7.1',
+    ],
+    '@coreui/coreui' => [
+        'version' => '5.1.2',
+    ],
+    '@coreui/coreui/dist/css/coreui.min.css' => [
+        'version' => '5.1.2',
+        'type' => 'css',
+    ],
+    'perfect-scrollbar' => [
+        'version' => '1.5.5',
+    ],
+    'perfect-scrollbar/css/perfect-scrollbar.min.css' => [
+        'version' => '1.5.5',
+        'type' => 'css',
+    ],
+    'simple-line-icons/css/simple-line-icons.min.css' => [
+        'version' => '2.5.5',
+    ],
+    'font-awesome/css/font-awesome.min.css' => [
+        'version' => '4.7.0',
+        'type' => 'css',
     ],
 ];

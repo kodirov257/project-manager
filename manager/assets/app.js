@@ -2,6 +2,7 @@ import './bootstrap.js';
 
 import $ from 'jquery';
 import 'bootstrap';
+import '@coreui/coreui';
 
 window.$ = $;
 
@@ -12,6 +13,9 @@ window.$ = $;
  * which should already be in your base.html.twig.
  */
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '@coreui/coreui/dist/css/coreui.min.css';
+import 'simple-line-icons/css/simple-line-icons.min.css';
+import 'font-awesome/css/font-awesome.min.css';
 import './styles/app.css';
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
