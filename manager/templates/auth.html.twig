@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+
+        <!-- Custom styles for this template -->
+        {% block stylesheets %}
+
+        {% endblock %}
+    </head>
+    <body data-coreui-theme=dark>
+    <div class="bg-body-tertiary min-vh-100 d-flex flex-row align-items-center">
+        {% block body %}{% endblock %}
+    </div>
+
+    {% block javascripts %}{% block importmap %}{{ importmap('app') }}{% endblock %}{% endblock %}
+    </body>
+</html>

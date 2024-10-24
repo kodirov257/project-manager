@@ -52,11 +52,11 @@ return [
         'version' => '1.5.5',
         'type' => 'css',
     ],
-    'simple-line-icons/css/simple-line-icons.min.css' => [
-        'version' => '2.5.5',
+    '@coreui/icons' => [
+        'version' => '3.0.1',
     ],
-    'font-awesome/css/font-awesome.min.css' => [
-        'version' => '4.7.0',
+    '@coreui/icons/css/all.min.css' => [
+        'version' => '3.0.1',
         'type' => 'css',
     ],
 ];
