@@ -3,8 +3,23 @@ import './bootstrap.js';
 import $ from 'jquery';
 import 'bootstrap';
 import '@coreui/coreui';
+import 'lodash-es';
+import 'simplebar';
 
 window.$ = $;
+
+import { Sidebar } from '@coreui/coreui';
+
+const header = $('header.header');
+document.addEventListener('scroll', () => {
+    if (header) {
+        header.classList.toggle('shadow-sm', document.documentElement.scrollTop > 0);
+    }
+});
+
+$('.header-toggle-click').on('click', function () {
+    Sidebar.getInstance(document.querySelector('#sidebar')).toggle();
+});
 
 /*
  * Welcome to your app's main JavaScript file!
@@ -12,9 +27,7 @@ window.$ = $;
  * This file will be included onto the page via the importmap() Twig function,
  * which should already be in your base.html.twig.
  */
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '@coreui/coreui/dist/css/coreui.min.css';
-import '@coreui/icons/css/all.min.css';
+import './styles/_variables.css';
 import './styles/app.css';
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
