@@ -48,12 +48,14 @@ build-production:
 	docker build --pull --file=manager/docker/production/php-fpm/Dockerfile --tag ${REGISTRY_ADDRESS}/manager-php-fpm:${IMAGE_TAG} manager
 	docker build --pull --file=manager/docker/production/php-cli/Dockerfile --tag ${REGISTRY_ADDRESS}/manager-php-cli:${IMAGE_TAG} manager
 	docker build --pull --file=manager/docker/production/postgres/Dockerfile --tag ${REGISTRY_ADDRESS}/manager-postgres:${IMAGE_TAG} manager
+	docker build --pull --file=manager/docker/production/redis/Dockerfile --tag ${REGISTRY_ADDRESS}/manager-redis:${IMAGE_TAG} manager
 
 push-production:
 	docker push ${REGISTRY_ADDRESS}/manager-nginx:${IMAGE_TAG}
 	docker push ${REGISTRY_ADDRESS}/manager-php-fpm:${IMAGE_TAG}
 	docker push ${REGISTRY_ADDRESS}/manager-php-cli:${IMAGE_TAG}
 	docker push ${REGISTRY_ADDRESS}/manager-postgres:${IMAGE_TAG}
+	docker push ${REGISTRY_ADDRESS}/manager-redis:${IMAGE_TAG}
 
 deploy-production:
 	ssh -o StrictHostKeyChecking=no ${PRODUCTION_HOST} -p ${PRODUCTION_PORT} 'rm -rf docker-compose.yml .env'
@@ -62,6 +64,7 @@ deploy-production:
 	ssh -o StrictHostKeyChecking=no ${PRODUCTION_HOST} -p ${PRODUCTION_PORT} 'echo "IMAGE_TAG=${IMAGE_TAG}" >> .env'
 	ssh -o StrictHostKeyChecking=no ${PRODUCTION_HOST} -p ${PRODUCTION_PORT} 'echo "MANAGER_APP_SECRET=${MANAGER_APP_SECRET}" >> .env'
 	ssh -o StrictHostKeyChecking=no ${PRODUCTION_HOST} -p ${PRODUCTION_PORT} 'echo "MANAGER_DB_PASSWORD=${MANAGER_DB_PASSWORD}" >> .env'
+	ssh -o StrictHostKeyChecking=no ${PRODUCTION_HOST} -p ${PRODUCTION_PORT} 'echo "MANAGER_REDIS_PASSWORD=${MANAGER_REDIS_PASSWORD}" >> .env'
 	ssh -o StrictHostKeyChecking=no ${PRODUCTION_HOST} -p ${PRODUCTION_PORT} 'echo "MANAGER_OAUTH_GOOGLE_SECRET=${MANAGER_OAUTH_GOOGLE_SECRET}" >> .env'
 	ssh -o StrictHostKeyChecking=no ${PRODUCTION_HOST} -p ${PRODUCTION_PORT} 'docker-compose pull'
 	ssh -o StrictHostKeyChecking=no ${PRODUCTION_HOST} -p ${PRODUCTION_PORT} 'docker-compose --build -d'
