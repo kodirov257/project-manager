@@ -65,4 +65,23 @@ class UserFetcher
             ? new AuthView($result['id'], $result['email'], $result['password_hash'], $result['role'], $result['status'])
             : null;
     }
+
+    /**
+     * @throws Exception
+     */
+    public function findByEmail(string $email): ?ShortView
+    {
+        $stmt = $this->connection->createQueryBuilder()
+            ->select('id', 'email', 'role', 'status')
+            ->from('user_users')
+            ->where('email = ?')
+            ->setParameter(0, $email)
+            ->executeQuery();
+
+        $result = $stmt->fetchAssociative();
+
+        return $result
+            ? new ShortView($result['id'], $result['email'], $result['role'], $result['status'])
+            : null;
+    }
 }
