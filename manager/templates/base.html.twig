@@ -90,11 +90,10 @@
                             {{ app.user.userIdentifier }}
                         </a>
                         <div class="dropdown-menu dropdown-menu-end pt-0">
-                            <div class="dropdown-header text-center bg-body-tertiary text-body-secondary fw-semibold rounded-top mb-2">
-                                <a href="{{ path('profile') }}">
-                                    <i class="icon me-2 cil-user"></i> Account
-                                </a>
-                            </div>
+                            <div class="dropdown-header bg-body-tertiary text-body-secondary fw-semibold rounded-top mb-2">Account</div>
+                            <a class="dropdown-item" href="{{ path('profile') }}">
+                                <i class="icon me-2 cil-user"></i> Profile
+                            </a>
 
                             <div class="dropdown-divider"></div>
 
