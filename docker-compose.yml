@@ -20,6 +20,7 @@ services:
     depends_on:
       - manager-postgres
       - manager-postgres-test
+      - manager-redis
       - maildev
     networks:
       - project_manager
@@ -35,6 +36,7 @@ services:
     depends_on:
       - manager-postgres
       - manager-postgres-test
+      - manager-redis
       - maildev
     networks:
       - project_manager
@@ -61,6 +63,14 @@ services:
     networks:
       - project_manager
 
+  manager-redis:
+    image: redis:7.4-alpine
+    volumes:
+      - manager-redis:/data
+    command: redis-server --requirepass secret
+    networks:
+      - project_manager
+
   maildev:
     image: maildev/maildev
     ports:
@@ -70,6 +80,7 @@ services:
 
 volumes:
   manager-postgres:
+  manager-redis:
   composer:
 
 networks:

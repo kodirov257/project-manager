@@ -39,17 +39,10 @@ return [
         'version' => '3.7.1',
     ],
     '@coreui/coreui' => [
-        'version' => '5.1.2',
+        'version' => '5.1.0',
     ],
     '@coreui/coreui/dist/css/coreui.min.css' => [
-        'version' => '5.1.2',
-        'type' => 'css',
-    ],
-    'perfect-scrollbar' => [
-        'version' => '1.5.5',
-    ],
-    'perfect-scrollbar/css/perfect-scrollbar.min.css' => [
-        'version' => '1.5.5',
+        'version' => '5.1.0',
         'type' => 'css',
     ],
     '@coreui/icons' => [
@@ -57,6 +50,23 @@ return [
     ],
     '@coreui/icons/css/all.min.css' => [
         'version' => '3.0.1',
+        'type' => 'css',
+    ],
+    'simplebar' => [
+        'version' => '6.2.7',
+    ],
+    'simplebar-core' => [
+        'version' => '1.2.6',
+    ],
+    'simplebar/dist/simplebar.min.css' => [
+        'version' => '6.2.7',
+        'type' => 'css',
+    ],
+    'lodash-es' => [
+        'version' => '4.17.21',
+    ],
+    'simplebar-core/dist/simplebar.min.css' => [
+        'version' => '1.2.6',
         'type' => 'css',
     ],
 ];
