@@ -84,4 +84,35 @@ class UserFetcher
             ? new ShortView($result['id'], $result['email'], $result['role'], $result['status'])
             : null;
     }
+
+    public function findDetail(string $id): ?DetailView
+    {
+        $stmt = $this->connection->createQueryBuilder()
+            ->select('id', 'date', 'email', 'role', 'status')
+            ->from('user_users')
+            ->where('id = ?')
+            ->setParameter(0, $id)
+            ->executeQuery();
+
+        $result = $stmt->fetchAssociative();
+
+        if (!$result) {
+            return null;
+        }
+        $view = new DetailView($result['id'], new \DateTimeImmutable($result['date']), $result['email'], $result['role'], $result['status']);
+
+        $stmt = $this->connection->createQueryBuilder()
+            ->select('network', 'identity')
+            ->from('user_user_networks')
+            ->where('user_id = ?')
+            ->setParameter(0, $id)
+            ->executeQuery();
+
+        $result = $stmt->fetchAllAssociative();
+        foreach ($result as $network) {
+            $view->networks[] = new NetworkView($network['network'], $network['identity']);
+        }
+
+        return $view;
+    }
 }

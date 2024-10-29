@@ -35,7 +35,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="profile.html">
+                <a class="nav-link" href="{{ path('profile') }}">
                     <i class="nav-icon cil-user"></i> Profile
                 </a>
             </li>
@@ -91,7 +91,9 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-end pt-0">
                             <div class="dropdown-header text-center bg-body-tertiary text-body-secondary fw-semibold rounded-top mb-2">
-                                <i class="icon me-2 cil-user"></i> Account
+                                <a href="{{ path('profile') }}">
+                                    <i class="icon me-2 cil-user"></i> Account
+                                </a>
                             </div>
 
                             <div class="dropdown-divider"></div>
