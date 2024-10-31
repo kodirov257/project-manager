@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Model\User\Service;
 
 use App\Model\User\Entity\User\Email;
-use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mailer\Transport\TransportInterface;
 use Symfony\Component\Mime\Email as SymfonyEmail;
 use Twig\Environment;
 
-class ConfirmTokenSender
+class SignUpConfirmTokenSender
 {
     public function __construct(
         private readonly TransportInterface $mailer,
