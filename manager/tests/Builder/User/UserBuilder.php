@@ -25,6 +25,7 @@ class UserBuilder
     {
         $this->id = Id::next();
         $this->date = new \DateTimeImmutable();
+        $this->confirmed = false;
     }
 
     public function viaEmail(Email $email = null, string $hash = null, string $token = null): self

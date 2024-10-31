@@ -69,4 +69,8 @@ return [
         'version' => '1.2.6',
         'type' => 'css',
     ],
+    'font-awesome/css/font-awesome.min.css' => [
+        'version' => '4.7.0',
+        'type' => 'css',
+    ],
 ];
