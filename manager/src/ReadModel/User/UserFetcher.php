@@ -85,6 +85,25 @@ class UserFetcher
             : null;
     }
 
+    /**
+     * @throws Exception
+     */
+    public function findBySignUpConfirmToken(string $token): ?ShortView
+    {
+        $stmt = $this->connection->createQueryBuilder()
+            ->select('id', 'email', 'role', 'status')
+            ->from('user_users')
+            ->where('confirm_token = ?')
+            ->setParameter(0, $token)
+            ->executeQuery();
+
+        $result = $stmt->fetchAssociative();
+
+        return $result
+            ? new ShortView($result['id'], $result['email'], $result['role'], $result['status'])
+            : null;
+    }
+
     public function findDetail(string $id): ?DetailView
     {
         $stmt = $this->connection->createQueryBuilder()

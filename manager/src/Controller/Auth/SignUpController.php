@@ -3,15 +3,23 @@
 namespace App\Controller\Auth;
 
 use App\Model\User\UseCase\SignUp;
+use App\ReadModel\User\UserFetcher;
+use App\Security\LoginFormAuthenticator;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class SignUpController extends AbstractController
 {
-    public function __construct(private readonly LoggerInterface $logger)
+    public function __construct(
+        private readonly UserFetcher $users,
+        private readonly LoggerInterface $logger,
+    )
     {
     }
 
@@ -40,18 +48,34 @@ class SignUpController extends AbstractController
     }
 
     #[Route('/signup/{token}', name: 'auth.signup.confirm')]
-    public function confirm(string $token, SignUp\Confirm\ByToken\Handler $handler): Response
+    public function confirm(
+        Request $request,
+        string $token,
+        SignUp\Confirm\ByToken\Handler $handler,
+        UserProviderInterface $userProvider,
+        UserAuthenticatorInterface $authenticator,
+        LoginFormAuthenticator $formAuthenticator,
+
+    ): Response
     {
+        if (!$user = $this->users->findBySignUpConfirmToken($token)) {
+            $this->addFlash('error', 'Incorrect or already confirmed token.');
+            return $this->redirectToRoute('auth.signup');
+        }
+
         $command = new SignUp\Confirm\ByToken\Command($token);
 
         try {
             $handler->handle($command);
-            $this->addFlash('success', 'Email is successfully confirmed.');
-            return $this->redirectToRoute('home');
+            return $authenticator->authenticateUser(
+                $userProvider->loadUserByIdentifier($user->email),
+                $formAuthenticator,
+                $request,
+            );
         } catch (\DomainException $e) {
             $this->logger->error($e->getMessage(), ['exception' => $e]);
             $this->addFlash('error', $e->getMessage());
-            return $this->redirectToRoute('home');
+            return $this->redirectToRoute('auth.signup');
         }
     }
 }
