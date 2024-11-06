@@ -14,14 +14,16 @@ class UserIdentity implements UserInterface, PasswordAuthenticatedUserInterface,
     private string $id;
     private ?string $username;
     private ?string $password;
+    private string $display;
     private string $role;
     private string $status;
 
-    public function __construct(string $id, ?string $username, ?string $password, string $role, string $status)
+    public function __construct(string $id, ?string $username, ?string $password, string $display, string $role, string $status)
     {
         $this->id = $id;
         $this->username = $username;
         $this->password = $password;
+        $this->display = $display;
         $this->role = $role;
         $this->status = $status;
     }
@@ -34,6 +36,11 @@ class UserIdentity implements UserInterface, PasswordAuthenticatedUserInterface,
     public function isActive(): bool
     {
         return $this->status === User::STATUS_ACTIVE;
+    }
+
+    public function getDisplay(): string
+    {
+        return $this->display;
     }
 
     public function getUsername(): string
