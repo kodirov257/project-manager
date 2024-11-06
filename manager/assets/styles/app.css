@@ -54,6 +54,13 @@ main {
     }
 }
 
+.table {
+    th,
+    td {
+        vertical-align: middle;
+    }
+}
+
 .footer {
     min-height: calc(3rem + 1px);
 
