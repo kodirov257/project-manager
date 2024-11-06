@@ -72,3 +72,8 @@ main {
         --cui-footer-bg: var(--cui-body-bg);
     }
 }
+
+.btn-google {
+    background-color: #dd4b39;
+    border-color: #dd4b39;
+}

@@ -43,11 +43,12 @@
         </div>
     </div>
 
-    {% if user.networks %}
-        <div class="card">
-            <div class="card-header">Networks</div>
-            <div class="card-body">
-                <table class="table table-bordered mb-0">
+
+    <div class="card">
+        <div class="card-header">Networks</div>
+        <div class="card-body">
+            {% if user.networks %}
+                <table class="table table-bordered mb-3">
                     <tbody>
                         {% for network in user.networks %}
                             <tr>
@@ -57,8 +58,16 @@
                         {% endfor %}
                     </tbody>
                 </table>
-            </div>
+            {% endif %}
+            <a
+               data-mdb-ripple-init
+               href="{{ path('profile.oauth.google') }}"
+               class="btn btn-primary btn-google"
+               role="button"
+            >
+                <i class="fa fa-google me-2"></i> Attach Google
+            </a>
         </div>
-    {% endif %}
+    </div>
 
 {% endblock %}
