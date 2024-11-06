@@ -12,12 +12,12 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class UserIdentity implements UserInterface, PasswordAuthenticatedUserInterface, EquatableInterface
 {
     private string $id;
-    private string $username;
+    private ?string $username;
     private ?string $password;
     private string $role;
     private string $status;
 
-    public function __construct(string $id, string $username, ?string $password, string $role, string $status)
+    public function __construct(string $id, ?string $username, ?string $password, string $role, string $status)
     {
         $this->id = $id;
         $this->username = $username;
@@ -69,7 +69,6 @@ class UserIdentity implements UserInterface, PasswordAuthenticatedUserInterface,
 
         return
             $this->id === $user->getId() &&
-            $this->username === $user->username &&
             $this->password === $user->password &&
             $this->role === $user->role &&
             $this->status === $user->status;

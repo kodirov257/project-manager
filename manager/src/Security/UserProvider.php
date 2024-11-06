@@ -64,6 +64,6 @@ class UserProvider implements UserProviderInterface
 
     private static function identityByUser(AuthView $user, string $username): UserIdentity
     {
-        return new UserIdentity($user->id, $username, $user->password_hash, $user->role, $user->status);
+        return new UserIdentity($user->id, $user->email ?: $username, $user->password_hash ?: '', $user->role, $user->status);
     }
 }
