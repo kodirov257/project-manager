@@ -62,15 +62,18 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
         $googleUser = $this->getGoogleClient()
             ->fetchUserFromToken($credentials);
 
-        $network ='google';
+        $network = 'google';
         $id = $googleUser->getId();
         $username = $network . ':' . $id;
 
+        $command = new Command($network, $id);
+        $command->firstName = $googleUser->getFirstName();
+        $command->lastName = $googleUser->getLastName();
 
         try {
             return $this->userProvider->loadUserByIdentifier($username);
         } catch (UserNotFoundException $e) {
-            $this->handler->handle(new Command($network, $id));
+            $this->handler->handle($command);
             return $this->userProvider->loadUserByIdentifier($username);
         }
     }

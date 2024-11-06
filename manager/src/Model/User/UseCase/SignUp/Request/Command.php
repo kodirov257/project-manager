@@ -9,6 +9,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Command
 {
     #[Assert\NotBlank]
+    public string $firstName;
+
+    #[Assert\NotBlank]
+    public string $lastName;
+
+    #[Assert\NotBlank]
     #[Assert\Email]
     public string $email;
 

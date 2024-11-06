@@ -17,6 +17,22 @@
                         {{ form_start(form) }}
 
                         <div class="input-group mb-3">
+                            <span class="input-group-text">
+                                <i class="cil-user"></i>
+                            </span>
+                            {{ form_widget(form.firstName, {'attr': {'placeholder': 'First Name'}}) }}
+                            {{ form_errors(form.firstName) }}
+                        </div>
+
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">
+                                <i class="cil-user"></i>
+                            </span>
+                            {{ form_widget(form.lastName, {'attr': {'placeholder': 'Last Name'}}) }}
+                            {{ form_errors(form.lastName) }}
+                        </div>
+
+                        <div class="input-group mb-3">
                             <span class="input-group-text">@</span>
                             {{ form_widget(form.email, {'attr': {'placeholder': 'Email'}}) }}
                             {{ form_errors(form.email) }}

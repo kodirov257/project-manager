@@ -107,7 +107,7 @@ class UserFetcher
     public function findDetail(string $id): ?DetailView
     {
         $stmt = $this->connection->createQueryBuilder()
-            ->select('id', 'date', 'email', 'role', 'status')
+            ->select('id', 'date', 'first_name', 'last_name', 'email', 'role', 'status')
             ->from('user_users')
             ->where('id = ?')
             ->setParameter(0, $id)
@@ -118,7 +118,15 @@ class UserFetcher
         if (!$result) {
             return null;
         }
-        $view = new DetailView($result['id'], new \DateTimeImmutable($result['date']), $result['email'], $result['role'], $result['status']);
+        $view = new DetailView(
+            $result['id'],
+            new \DateTimeImmutable($result['date']),
+            $result['first_name'],
+            $result['last_name'],
+            $result['email'],
+            $result['role'],
+            $result['status'],
+        );
 
         $stmt = $this->connection->createQueryBuilder()
             ->select('network', 'identity')

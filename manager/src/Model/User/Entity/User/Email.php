@@ -7,7 +7,8 @@ namespace App\Model\User\Entity\User;
 use Webmozart\Assert\Assert;
 
 class Email
-{   private string $value;
+{
+    private string $value;
 
     public function __construct(string $value)
     {

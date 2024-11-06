@@ -29,6 +29,8 @@ class User
     private ?string $passwordHash;
     #[ORM\Column(name: 'confirm_token', type: 'string', nullable: true)]
     private ?string $confirmToken;
+    #[ORM\Embedded(class: Name::class, columnPrefix: false)]
+    private ?Name $name;
     #[ORM\Column(name: 'new_email', type: 'user_user_email', nullable: true)]
     private ?Email $newEmail;
     #[ORM\Column(name: 'new_email_token', type: 'string', nullable: true)]
@@ -45,19 +47,20 @@ class User
     #[ORM\OneToMany(targetEntity: 'Network', mappedBy: 'user', cascade: ['persist'], orphanRemoval: true)]
     private array|Collection|ArrayCollection $networks;
 
-    private function __construct(Id $id, \DateTimeImmutable $date)
+    private function __construct(Id $id, \DateTimeImmutable $date, Name $name)
     {
         $this->id = $id;
         $this->date = $date;
+        $this->name = $name;
         $this->role = Role::user();
         $this->networks = new ArrayCollection();
         $this->newEmail = null;
         $this->newEmailToken = null;
     }
 
-    public static function signUpByEmail(Id $id, \DateTimeImmutable $date, Email $email, string $hash, string $token): self
+    public static function signUpByEmail(Id $id, \DateTimeImmutable $date, Name $name, Email $email, string $hash, string $token): self
     {
-        $user = new self($id, $date);
+        $user = new self($id, $date, $name);
 
         $user->email = $email;
         $user->passwordHash = $hash;
@@ -77,9 +80,9 @@ class User
         $this->confirmToken = null;
     }
 
-    public static function signUpByNetwork(Id $id, \DateTimeImmutable $date, string $network, string $identity): self
+    public static function signUpByNetwork(Id $id, \DateTimeImmutable $date, Name $name, string $network, string $identity): self
     {
-        $user = new self($id, $date);
+        $user = new self($id, $date, $name);
 
         $user->attachNetwork($network, $identity);
         $user->status = self::STATUS_ACTIVE;
@@ -149,6 +152,11 @@ class User
         $this->newEmailToken = null;
     }
 
+    public function changeName(Name $name): void
+    {
+        $this->name = $name;
+    }
+
     public function changeRole(Role $role): void
     {
         if ($this->role->isEqual($role)) {
@@ -190,6 +198,11 @@ class User
     public function getConfirmToken(): ?string
     {
         return $this->confirmToken;
+    }
+
+    public function getName(): ?Name
+    {
+        return $this->name;
     }
 
     public function getNewEmail(): ?Email
