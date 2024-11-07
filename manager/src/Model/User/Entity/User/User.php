@@ -199,7 +199,7 @@ class User
         return $this->date;
     }
 
-    public function getEmail(): Email
+    public function getEmail(): ?Email
     {
         return $this->email;
     }
@@ -237,6 +237,11 @@ class User
     public function getRole(): Role
     {
         return $this->role;
+    }
+
+    public function getStatus(): string
+    {
+        return $this->status;
     }
 
     /**
