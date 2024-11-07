@@ -35,11 +35,13 @@
                     <i class="nav-icon cil-speedometer"></i> Dashboard
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{ path('users') }}">
-                    <i class="nav-icon cil-people"></i> Users
-                </a>
-            </li>
+            {% if is_granted('ROLE_MANAGE_USERS') %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('users') }}">
+                        <i class="nav-icon cil-people"></i> Users
+                    </a>
+                </li>
+            {% endif %}
             <li class="nav-item">
                 <a class="nav-link" href="{{ path('profile') }}">
                     <i class="nav-icon cil-user"></i> Profile
