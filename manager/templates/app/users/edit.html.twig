@@ -6,7 +6,8 @@
     <ol class="breadcrumb my-0">
         <li class="breadcrumb-item"><a href="{{ path('home') }}">Home</a></li>
         <li class="breadcrumb-item"><a href="{{ path('users') }}">Users</a></li>
-        <li class="breadcrumb-item active">Create</li>
+        <li class="breadcrumb-item"><a href="{{ path('users.show', {id: user.id}) }}">{{ user.name.full }}</a></li>
+        <li class="breadcrumb-item active">Edit</li>
     </ol>
 {% endblock %}
 
@@ -16,7 +17,7 @@
 
             {{ form_start(form) }}
             {{ form_widget(form) }}
-            <button type="submit"  class="btn btn-primary">Create</button>
+            <button type="submit" class="btn btn-primary">Save</button>
             {{ form_end(form) }}
 
         </div>

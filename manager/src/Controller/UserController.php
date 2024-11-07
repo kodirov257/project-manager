@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Model\User\Entity\User\User;
 use App\Model\User\UseCase\Create;
+use App\Model\User\UseCase\Edit;
 use App\ReadModel\User\UserFetcher;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -45,6 +46,30 @@ class UserController extends AbstractController
         }
 
         return $this->render('app/users/create.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/{id}/edit', name: 'users.edit')]
+    public function edit(User $user, Request $request, Edit\Handler $handler): Response
+    {
+        $command = Edit\Command::fromUser($user);
+
+        $form = $this->createForm(Edit\Form::class, $command);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            try {
+                $handler->handle($command);
+                return $this->redirectToRoute('users.show', ['id' => $user->getId()]);
+            } catch (\DomainException $e) {
+                $this->logger->error($e->getMessage(), ['exception' => $e]);
+                $this->addFlash('error', $e->getMessage());
+            }
+        }
+
+        return $this->render('app/users/edit.html.twig', [
+            'user' => $user,
             'form' => $form->createView(),
         ]);
     }

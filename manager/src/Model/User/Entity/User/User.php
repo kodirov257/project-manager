@@ -181,6 +181,12 @@ class User
         $this->name = $name;
     }
 
+    public function edit(Email $email, Name $name): void
+    {
+        $this->email = $email;
+        $this->name = $name;
+    }
+
     public function changeRole(Role $role): void
     {
         if ($this->role->isEqual($role)) {
