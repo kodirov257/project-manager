@@ -20,7 +20,7 @@ class Handler
 
     public function handle(Command $command): void
     {
-        $user = $this->users->get(new Id($command->id));
+        $user = $this->users->get(new Id($command->email));
 
         $user->changeName(new Name(
             $command->firstName,
