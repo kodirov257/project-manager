@@ -78,6 +78,11 @@ class UserController extends AbstractController
     #[Route('/{id}/role', name: 'users.role')]
     public function role(User $user, Request $request, Role\Handler $handler): Response
     {
+        if ($user->getId()->getValue() === $this->getUser()->getId()) {
+            $this->addFlash('error', 'Unable to change role for yourself.');
+            return $this->redirectToRoute('users.show', ['id' => $user->getId()]);
+        }
+
         $command = Role\Command::fromUser($user);
 
         $form = $this->createForm(Role\Form::class, $command);
