@@ -7,10 +7,12 @@ namespace App\ReadModel\User;
 use App\ReadModel\User\Filter\Filter;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 class UserFetcher
 {
-    public function __construct(private readonly Connection $connection)
+    public function __construct(private readonly Connection $connection, private readonly PaginatorInterface $paginator)
     {
     }
 
@@ -169,7 +171,7 @@ class UserFetcher
     /**
      * @throws Exception
      */
-    public function all(Filter $filter): array
+    public function all(Filter $filter, int $page, int $size): PaginationInterface
     {
         $qb = $this->connection->createQueryBuilder()
             ->select(
@@ -203,8 +205,6 @@ class UserFetcher
             $qb->setParameter('role', $filter->role);
         }
 
-        $stmt = $qb->executeQuery();
-
-        return $stmt->fetchAllAssociative();
+        return $this->paginator->paginate($qb, $page, $size);
     }
 }
