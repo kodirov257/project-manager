@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/users')]
+#[Route('/users', name: 'users')]
 class UserController extends AbstractController
 {
     private const PER_PAGE = 10;
@@ -26,7 +26,7 @@ class UserController extends AbstractController
     {
     }
 
-    #[Route('', name: 'users')]
+    #[Route('', name: '')]
     public function index(Request $request, UserFetcher $fetcher): Response
     {
         $filter = new Filter\Filter();
@@ -48,7 +48,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/create', name: 'users.create')]
+    #[Route('/create', name: '.create')]
     public function create(Request $request, Create\Handler $handler): Response
     {
         $command = new Create\Command();
@@ -71,7 +71,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'users.edit')]
+    #[Route('/{id}/edit', name: '.edit')]
     public function edit(User $user, Request $request, Edit\Handler $handler): Response
     {
         $command = Edit\Command::fromUser($user);
@@ -95,7 +95,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/role', name: 'users.role')]
+    #[Route('/{id}/role', name: '.role')]
     public function role(User $user, Request $request, Role\Handler $handler): Response
     {
         if ($user->getId()->getValue() === $this->getUser()->getId()) {
@@ -124,7 +124,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/confirm', name: 'users.confirm', methods: ['POST'])]
+    #[Route('/{id}/confirm', name: '.confirm', methods: ['POST'])]
     public function confirm(User $user, Request $request, Confirm\Manual\Handler $handler): Response
     {
         if (!$this->isCsrfTokenValid('confirm', $request->request->get('token'))) {
@@ -143,7 +143,7 @@ class UserController extends AbstractController
         return $this->redirectToRoute('users.show', ['id' => $user->getId()]);
     }
 
-    #[Route('/{id}/activate', name: 'users.activate', methods: ['POST'])]
+    #[Route('/{id}/activate', name: '.activate', methods: ['POST'])]
     public function activate(User $user, Request $request, Activate\Handler $handler): Response
     {
         if (!$this->isCsrfTokenValid('activate', $request->request->get('token'))) {
@@ -162,7 +162,7 @@ class UserController extends AbstractController
         return $this->redirectToRoute('users.show', ['id' => $user->getId()]);
     }
 
-    #[Route('/{id}/block', name: 'users.block', methods: ['POST'])]
+    #[Route('/{id}/block', name: '.block', methods: ['POST'])]
     public function block(User $user, Request $request, Block\Handler $handler): Response
     {
         if (!$this->isCsrfTokenValid('block', $request->request->get('token'))) {
@@ -186,7 +186,7 @@ class UserController extends AbstractController
         return $this->redirectToRoute('users.show', ['id' => $user->getId()]);
     }
 
-    #[Route('/{id}', name: 'users.show')]
+    #[Route('/{id}', name: '.show')]
     public function show(User $user): Response
     {
         return $this->render('app/users/show.html.twig', compact('user'));
