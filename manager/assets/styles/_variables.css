@@ -1,0 +1,8 @@
+:root,[data-coreui-theme=light] {
+    --sorting-link: #000;
+    --sorting-link-arrow: #d2d6de;
+}
+[data-coreui-theme=dark] {
+    --sorting-link: #a3b9ea;
+    --sorting-link-arrow: #d2d6de;
+}

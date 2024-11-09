@@ -48,7 +48,7 @@
             <tbody>
             {% for user in pagination %}
                 <tr>
-                    <td>{{ user.date|date('Y-m-d') }}</td>
+                    <td>{{ user.date|date('Y-m-d H:i:s') }}</td>
                     <td><a href="{{ path('users.show', {id: user.id}) }}">{{ user.name }}</a></td>
                     <td>{{ user.email }}</td>
                     <td>{{ user_role(user.role) }}</td>
