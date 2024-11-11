@@ -32,7 +32,7 @@
         {% if user.blocked %}
             <form action="{{ path('users.activate', {id: user.id}) }}" method="post" onsubmit="return confirm('Are you sure?')">
                 <input type="hidden" name="token" value="{{ csrf_token('activate') }}">
-                <button type="submit" class="btn btn-danger">Activate</button>
+                <button type="submit" class="btn btn-success">Activate</button>
             </form>
         {% endif %}
     </div>
