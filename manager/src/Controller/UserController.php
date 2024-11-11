@@ -74,7 +74,7 @@ class UserController extends AbstractController
     #[Route('/{id}/edit', name: '.edit')]
     public function edit(User $user, Request $request, Edit\Handler $handler): Response
     {
-        if ($user->getId() !== $this->getUser()->getId()) {
+        if ($user->getId() === $this->getUser()->getId()) {
             $this->addFlash('error', 'Unable to edit yourself.');
             return $this->redirectToRoute('users.show', ['id' => $user->getId()]);
         }
